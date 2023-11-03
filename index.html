@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stopwatch</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="stopwatch">
+    <div class="time" id="display">00:00:00</div>
+    <button id="start" onclick="start()">Start</button>
+    <button id="stop" onclick="stop()">Stop</button>
+    <button id="reset" onclick="reset()">Reset</button>
+  </div>
+  <script>
+let timer;
+let isRunning = false;
+let seconds = 0;
+let minutes = 0;
+let hours = 0;
+
+function start() {
+      if (!isRunning) {
+        timer = setInterval(updateTime, 1000);
+        document.getElementById('start').textContent = 'start';
+        isRunning = true;
+      }
+    }
+
+    function stop() {
+      if (isRunning) {
+        clearInterval(timer);
+        document.getElementById('start').textContent = 'Start';
+        isRunning = false;
+      }
+    }
+
+    // set time update 60s => 1m & 60m => 1 hour then Hours++ by using looping
+    function updateTime() {
+      seconds++;
+      if (seconds == 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes == 60) {
+          minutes = 0;
+          hours++;
+        }
+      }
+      const display = document.getElementById('display');
+      display.textContent =
+        (hours < 10 ? '0' : '') + hours + ':' +
+        (minutes < 10 ? '0' : '') + minutes + ':' +
+        (seconds < 10 ? '0' : '') + seconds;
+    }
+
+    // Reset button working by using functions
+    function reset() {
+      clearInterval(timer);
+      isRunning = false;
+      seconds = 0;
+      minutes = 0;
+      hours = 0;
+      const display = document.getElementById('display');
+      display.textContent = '00:00:00';
+      document.getElementById('start').textContent = 'Start';
+    }
+    </script>
+    </body>
+    </html>
